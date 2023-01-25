@@ -77,6 +77,12 @@ class GradientDescentLinearRegression(LinearRegression):
             None
         """
 
+        MOMENTUM = True
+        # Momentum
+        v_w = 0
+        v_b = 0
+        alpha = 0.9
+
         num_examples = X.shape[0]
 
         # Initialize weights
@@ -89,6 +95,14 @@ class GradientDescentLinearRegression(LinearRegression):
             grad_b = (-2 / num_examples) * np.sum(y - y_pred)
             self.w -= lr * grad_w
             self.b -= lr * grad_b
+
+        if MOMENTUM:
+            self.w += alpha * v_w
+            self.b += alpha * v_b
+
+            # Update v_w and v_b
+            v_w = alpha * v_w - lr * grad_w
+            v_b = alpha * v_b - lr * grad_b
         return None
 
     def predict(self, X: np.ndarray) -> np.ndarray:
