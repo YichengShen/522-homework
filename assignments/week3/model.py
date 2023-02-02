@@ -34,7 +34,6 @@ class MLP(torch.nn.Module):
         self.num_classes = num_classes
         self.hidden_count = hidden_count
         self.activation = activation()
-        self.initializer = initializer
 
         self.layers = nn.ModuleList()
         self.layers.append(nn.Linear(self.input_size, self.hidden_size))
@@ -43,6 +42,11 @@ class MLP(torch.nn.Module):
             self.layers.append(nn.Linear(self.hidden_size, self.hidden_size))
             self.layers.append(self.activation)
         self.layers.append(nn.Linear(self.hidden_size, self.num_classes))
+
+        for layer in self.layers:
+            if isinstance(layer, nn.Linear):
+                initializer(layer.weight)
+                nn.init.zeros_(layer.bias)
 
     def forward(self, x: int) -> int:
         """

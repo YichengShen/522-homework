@@ -7,6 +7,7 @@
         }
     ],
     "sources": [
-        "W2D2 notebook"
+        "W2D2 notebook",
+        "https://datascience.stackexchange.com/questions/17987/how-should-the-bias-be-initialized-and-regularized"
     ]
 }
