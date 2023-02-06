@@ -18,7 +18,7 @@ def create_model(input_dim: int, output_dim: int) -> MLP:
 
     return MLP(
         input_dim,
-        100,
+        128,
         output_dim,
         2,
         torch.nn.Mish,
