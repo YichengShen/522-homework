@@ -1,8 +1,6 @@
 import torch
 from model import MLP
 import os
-
-os.system("pip install pyyaml")
 import yaml
 
 
@@ -27,7 +25,7 @@ def create_model(input_dim: int, output_dim: int) -> MLP:
         input_dim,
         d["size"],
         output_dim,
-        d["layers"],
+        d["layer"],
         torch.nn.Mish,
         torch.nn.init.kaiming_normal_,
     )
