@@ -1,9 +1,9 @@
 import torch
 from model import MLP
-import os 
+import os
+
 os.system("pip install pyyaml")
 import yaml
-
 
 
 def create_model(input_dim: int, output_dim: int) -> MLP:
