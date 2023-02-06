@@ -17,9 +17,9 @@ def create_model(input_dim: int, output_dim: int) -> MLP:
     """
     return MLP(
         input_dim,
-        [64, 128, 256, 512, 128, 64],
+        [64, 256, 512, 128],
         output_dim,
-        6,
+        4,
         torch.nn.Mish,
         torch.nn.init.kaiming_normal_,
     )
