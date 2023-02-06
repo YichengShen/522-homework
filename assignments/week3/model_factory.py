@@ -1,5 +1,6 @@
 import torch
 from model import MLP
+import yaml
 
 
 def create_model(input_dim: int, output_dim: int) -> MLP:
@@ -15,11 +16,15 @@ def create_model(input_dim: int, output_dim: int) -> MLP:
         MLP: The created model.
 
     """
+    with open("config.yaml", "r") as stream:
+        d = yaml.safe_load(stream)
+        print(d)
+
     return MLP(
         input_dim,
-        [64, 512, 256, 128],
+        d["size"],
         output_dim,
-        4,
+        d["layers"],
         torch.nn.Mish,
         torch.nn.init.kaiming_normal_,
     )
