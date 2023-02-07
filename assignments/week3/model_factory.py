@@ -20,7 +20,7 @@ def create_model(input_dim: int, output_dim: int) -> MLP:
         input_dim,
         512,
         output_dim,
-        2,
+        3,
         torch.nn.LeakyReLU,
         torch.nn.init.kaiming_normal_,
     )
