@@ -11,7 +11,7 @@ class MLP(torch.nn.Module):
     def __init__(
         self,
         input_size: int,
-        hidden_size: Union[int, list],
+        hidden_size: int,
         num_classes: int,
         hidden_count: int = 1,
         activation: Callable = torch.nn.ReLU,
@@ -35,19 +35,14 @@ class MLP(torch.nn.Module):
         self.hidden_count = hidden_count
         self.activation = activation()
 
-        if isinstance(self.hidden_size, int):
-            self.hidden_size = [self.hidden_size]
-
-        self.hidden_count = len(self.hidden_size)
-
         self.layers = nn.ModuleList()
-        self.layers.append(nn.Linear(self.input_size, self.hidden_size[0]))
+        self.layers.append(nn.Linear(self.input_size, self.hidden_size))
         self.layers.append(self.activation)
-        for i in range(self.hidden_count - 1):
-            self.layers.append(nn.Linear(self.hidden_size[i], self.hidden_size[i + 1]))
-            self.layers.append(nn.BatchNorm1d(hidden_size[i + 1]))
+        for i in range(self.hidden_count):
+            self.layers.append(nn.Linear(self.hidden_size, self.hidden_size))
+            self.layers.append(nn.BatchNorm1d(hidden_size))
             self.layers.append(self.activation)
-        self.layers.append(nn.Linear(self.hidden_size[-1], self.num_classes))
+        self.layers.append(nn.Linear(self.hidden_size, self.num_classes))
 
         for layer in self.layers:
             if isinstance(layer, nn.Linear):
