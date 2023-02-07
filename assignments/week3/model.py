@@ -41,8 +41,8 @@ class MLP(torch.nn.Module):
         for i in range(self.hidden_count):
             self.layers.append(nn.Linear(self.hidden_size, self.hidden_size))
             self.layers.append(nn.BatchNorm1d(hidden_size))
-            self.layers.append(nn.Dropout(p=0.2))
             self.layers.append(self.activation)
+            self.layers.append(nn.Dropout(p=0.05))
         self.layers.append(nn.Linear(self.hidden_size, self.num_classes))
 
         for layer in self.layers:
