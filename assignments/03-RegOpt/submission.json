@@ -11,6 +11,7 @@
         }
     ],
     "sources": [
-        "https://pytorch.org/docs/stable/_modules/torch/optim/lr_scheduler.html#StepLR"
+        "https://pytorch.org/docs/stable/_modules/torch/optim/lr_scheduler.html",
+        "chatGPT"
     ]
 }
