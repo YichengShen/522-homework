@@ -4,7 +4,18 @@ from torch.optim.lr_scheduler import _LRScheduler
 
 
 class CustomLRScheduler(_LRScheduler):
-    def __init__(self, optimizer, last_epoch=-1):
+    """
+    A custom learning rate scheduler.
+    """
+
+    def __init__(
+        self,
+        optimizer,
+        decay_rate=0.95,
+        decay_epochs=1,
+        last_epoch=-1,
+        verbose=False,
+    ):
         """
         Create a new scheduler.
 
@@ -12,13 +23,16 @@ class CustomLRScheduler(_LRScheduler):
         if you need to add new parameters.
 
         """
-        # ... Your Code Here ...
-        super(CustomLRScheduler, self).__init__(optimizer, last_epoch)
+
+        self.decay_rate = decay_rate
+        self.decay_epochs = decay_epochs
+        super(CustomLRScheduler, self).__init__(optimizer, last_epoch, verbose)
 
     def get_lr(self) -> List[float]:
-        # Note to students: You CANNOT change the arguments or return type of
-        # this function (because it is called internally by Torch)
+        """
+        Returns a list of learning rates.
+        """
 
-        # ... Your Code Here ...
-        # Here's our dumb baseline implementation:
-        return [i for i in self.base_lrs]
+        if self.last_epoch % self.decay_epochs != 0:
+            return [group["lr"] for group in self.optimizer.param_groups]
+        return [group["lr"] * self.decay_rate for group in self.optimizer.param_groups]
