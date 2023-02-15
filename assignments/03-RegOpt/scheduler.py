@@ -7,15 +7,22 @@ class CustomLRScheduler(_LRScheduler):
     """
     A custom learning rate scheduler.
 
-    This learning rate scheduler implements cosine annealing with warm restarts, which consists of cyclically varying the learning rate between a maximum and a minimum value using a cosine function, and periodically resetting the learning rate to its maximum value.
+    This learning rate scheduler implements cosine annealing with warm restarts,
+    which consists of cyclically varying the learning rate between
+    a maximum and a minimum value using a cosine function,
+    and periodically resetting the learning rate to its maximum value.
 
     The learning rate at each epoch is computed as:
 
         eta_min + 0.5 * (base_lr - eta_min) * (1 + cos(pi * t / T))
 
-    where `eta_min` is the minimum learning rate, `base_lr` is the initial learning rate, `t` is the current epoch within the current cycle, `T` is the length of the current cycle, and `pi` is the mathematical constant pi.
+    where `eta_min` is the minimum learning rate, `base_lr` is the initial learning rate,
+    `t` is the current epoch within the current cycle, `T` is the length of the current cycle,
+    and `pi` is the mathematical constant pi.
 
-    The length of the current cycle is determined by `T_0` in the first cycle and `T_0` * `T_mult` in subsequent cycles. The minimum learning rate is determined by `eta_min`.
+    The length of the current cycle is determined by
+    `T_0` in the first cycle and `T_0` * `T_mult` in subsequent cycles.
+    The minimum learning rate is determined by `eta_min`.
 
     Args:
         optimizer (Optimizer): Wrapped optimizer.
@@ -25,7 +32,7 @@ class CustomLRScheduler(_LRScheduler):
         last_epoch (int): The index of the last epoch.
     """
 
-    def __init__(self, optimizer, T_0=20, T_mult=2, eta_min=0, last_epoch=-1):
+    def __init__(self, optimizer, T_0=10, T_mult=1.5, eta_min=0.005, last_epoch=-1):
         """
         Create a new scheduler.
         """
