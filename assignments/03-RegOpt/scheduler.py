@@ -32,7 +32,7 @@ class CustomLRScheduler(_LRScheduler):
         last_epoch (int): The index of the last epoch.
     """
 
-    def __init__(self, optimizer, T_0=10, T_mult=1.5, eta_min=0.005, last_epoch=-1):
+    def __init__(self, optimizer, T_0=1000, T_mult=2, eta_min=0.000006, last_epoch=-1):
         """
         Create a new scheduler.
         """
