@@ -3,7 +3,7 @@ from typing import List
 from torch.optim.lr_scheduler import _LRScheduler
 
 
-class CustomCALRScheduler(_LRScheduler):
+class CustomLRScheduler(_LRScheduler):
     """
     A custom learning rate scheduler.
 
@@ -32,7 +32,7 @@ class CustomCALRScheduler(_LRScheduler):
         last_epoch (int): The index of the last epoch.
     """
 
-    def __init__(self, optimizer, T_0=2000, T_mult=2, eta_min=0.000006, last_epoch=-1):
+    def __init__(self, optimizer, T_0=1000, T_mult=2, eta_min=0.000006, last_epoch=-1):
         """
         Create a new scheduler.
         """
@@ -79,7 +79,7 @@ class CustomCALRScheduler(_LRScheduler):
         super(CustomLRScheduler, self).step(epoch)
 
 
-class CustomLRScheduler(_LRScheduler):
+class CustomStepLRScheduler(_LRScheduler):
     """
     A custom learning rate scheduler.
     """
