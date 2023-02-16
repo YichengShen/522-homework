@@ -87,8 +87,8 @@ class CustomLRScheduler(_LRScheduler):
     def __init__(
         self,
         optimizer,
-        decay_rate=0.999,
-        decay_epochs=10,
+        decay_rate=0.9995,
+        decay_epochs=5,
         last_epoch=-1,
         verbose=False,
     ):
