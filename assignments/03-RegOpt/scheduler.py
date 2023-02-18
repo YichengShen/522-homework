@@ -89,6 +89,7 @@ class CustomLRScheduler(_LRScheduler):
         optimizer,
         decay_rate=0.999,
         decay_epochs=12,
+        min_lr=0.00163,
         last_epoch=-1,
         verbose=False,
     ):
@@ -98,6 +99,7 @@ class CustomLRScheduler(_LRScheduler):
 
         self.decay_rate = decay_rate
         self.decay_epochs = decay_epochs
+        self.min_lr = min_lr
         super(CustomLRScheduler, self).__init__(optimizer, last_epoch, verbose)
 
     def get_lr(self) -> List[float]:
@@ -106,4 +108,8 @@ class CustomLRScheduler(_LRScheduler):
         """
         if self.last_epoch % self.decay_epochs != 0:
             return [group["lr"] for group in self.optimizer.param_groups]
-        return [group["lr"] * self.decay_rate for group in self.optimizer.param_groups]
+        return [
+            group["lr"] * self.decay_rate
+            for group in self.optimizer.param_groups
+            if group["lr"] > self.min_lr
+        ]
