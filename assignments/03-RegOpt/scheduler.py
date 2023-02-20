@@ -89,7 +89,7 @@ class CustomLRScheduler(_LRScheduler):
         optimizer,
         decay_rate=0.999,
         decay_epochs=11,
-        min_lr=0.0010,  # 0.00163
+        min_lr=0.0005,  # 0.00163
         last_epoch=-1,
         verbose=False,
     ):
