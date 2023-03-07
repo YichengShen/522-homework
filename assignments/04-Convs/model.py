@@ -1,5 +1,6 @@
 import torch
 import torch.nn as nn
+import torch.nn.functional as F
 
 
 class Model(torch.nn.Module):
@@ -28,14 +29,11 @@ class Model(torch.nn.Module):
         """
         Forward.
         """
-        x = self.conv1(x)
-        x = nn.functional.relu(x)
-        x = self.pool1(x)
+        x = self.pool1(F.relu(self.conv1(x)))
         # x = self.conv2(x)
-        # x = nn.functional.relu(x)
+        # x = F.relu(x)
         # x = self.pool2(x)
         x = x.view(-1, 16 * 7 * 7)
-        x = self.fc1(x)
-        x = nn.functional.relu(x)
+        x = F.relu(self.fc1(x))
         x = self.fc2(x)
         return x
