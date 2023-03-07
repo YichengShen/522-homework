@@ -34,7 +34,6 @@ class Model(torch.nn.Module):
         # x = self.conv2(x)
         # x = nn.functional.relu(x)
         # x = self.pool2(x)
-        # print(x.shape)
         x = x.view(-1, 16 * 7 * 7)
         x = self.fc1(x)
         x = nn.functional.relu(x)
