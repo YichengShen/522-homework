@@ -21,8 +21,8 @@ class Model(torch.nn.Module):
         #     in_channels=16, out_channels=32, kernel_size=3, stride=1, padding=1
         # )
         # self.pool2 = nn.MaxPool2d(kernel_size=2, stride=2)
-        self.fc1 = nn.Linear(in_features=16 * 7 * 7, out_features=256)
-        self.fc2 = nn.Linear(in_features=256, out_features=num_classes)
+        self.fc1 = nn.Linear(in_features=16 * 7 * 7, out_features=512)
+        self.fc2 = nn.Linear(in_features=512, out_features=num_classes)
 
     def forward(self, x: torch.Tensor) -> torch.Tensor:
         """
