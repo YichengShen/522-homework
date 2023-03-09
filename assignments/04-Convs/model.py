@@ -18,7 +18,7 @@ class Model(torch.nn.Module):
                 stride=2,
                 padding=0,
             ),
-            nn.LeakyReLU(),
+            nn.ReLU(),
             nn.BatchNorm2d(num_features=num_features),
             nn.Conv2d(
                 in_channels=num_features,
@@ -27,7 +27,7 @@ class Model(torch.nn.Module):
                 stride=2,
                 padding=0,
             ),
-            nn.LeakyReLU(),
+            nn.ReLU(),
             nn.BatchNorm2d(num_features=num_features),
             nn.Conv2d(
                 in_channels=num_features,
@@ -36,7 +36,7 @@ class Model(torch.nn.Module):
                 stride=2,
                 padding=0,
             ),
-            nn.LeakyReLU(),
+            nn.ReLU(),
             nn.BatchNorm2d(num_features=num_features),
             nn.Conv2d(
                 in_channels=num_features,
