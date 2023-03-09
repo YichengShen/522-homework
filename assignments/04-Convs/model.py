@@ -27,15 +27,7 @@ class Model(torch.nn.Module):
                 stride=2,
                 padding=0,
             ),
-            nn.ReLU(),
-            nn.BatchNorm2d(num_features=num_features),
-            nn.Conv2d(
-                in_channels=num_features,
-                out_channels=num_features,
-                kernel_size=3,
-                stride=2,
-                padding=0,
-            ),
+            nn.AvgPool2d(kernel_size=3, stride=2, padding=0),
             nn.ReLU(),
             nn.BatchNorm2d(num_features=num_features),
             nn.Conv2d(
@@ -53,5 +45,4 @@ class Model(torch.nn.Module):
         """
         Forward.
         """
-        # print(summary(self.cnn, (3, 32, 32)))
         return self.cnn(x)
