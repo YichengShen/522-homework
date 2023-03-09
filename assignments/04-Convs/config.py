@@ -13,4 +13,8 @@ class CONFIG:
         [nn.Module], torch.optim.Optimizer
     ] = lambda model: torch.optim.Adam(model.parameters(), lr=1e-3)
 
-    transforms = Compose([ToTensor()])
+    transforms = Compose(
+        [
+            ToTensor(),
+        ]
+    )
