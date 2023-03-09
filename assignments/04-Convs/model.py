@@ -9,7 +9,7 @@ class Model(torch.nn.Module):
 
     def __init__(self, num_channels: int, num_classes: int) -> None:
         super(Model, self).__init__()
-        num_features = 30
+        num_features = 32
         self.cnn = nn.Sequential(
             nn.Conv2d(
                 in_channels=num_channels,
