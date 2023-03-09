@@ -36,8 +36,17 @@ class Model(torch.nn.Module):
                 stride=2,
                 padding=0,
             ),
+            nn.ReLU(),
+            nn.BatchNorm2d(num_features=num_features),
+            nn.Conv2d(
+                in_channels=num_features,
+                out_channels=num_features,
+                kernel_size=3,
+                stride=2,
+                padding=0,
+            ),
             nn.Flatten(),
-            nn.Linear(in_features=num_features * 3 * 3, out_features=num_classes),
+            nn.Linear(in_features=num_features, out_features=num_classes),
         )
 
     def forward(self, x: torch.Tensor) -> torch.Tensor:
