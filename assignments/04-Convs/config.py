@@ -2,7 +2,7 @@ from typing import Callable
 import torch
 import torch.optim
 import torch.nn as nn
-from torchvision.transforms import Compose, ToTensor
+from torchvision.transforms import Compose, ToTensor, Normalize
 
 
 class CONFIG:
@@ -14,7 +14,5 @@ class CONFIG:
     ] = lambda model: torch.optim.Adam(model.parameters(), lr=1e-3)
 
     transforms = Compose(
-        [
-            ToTensor(),
-        ]
+        [ToTensor(), Normalize((0.4914, 0.4822, 0.4465), (0.247, 0.243, 0.261))]
     )
