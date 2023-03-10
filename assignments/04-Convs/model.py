@@ -27,7 +27,7 @@ class Model(torch.nn.Module):
                 stride=2,
                 padding=0,
             ),
-            nn.MaxPool2d(kernel_size=3, stride=2, padding=0),
+            nn.AvgPool2d(kernel_size=3, stride=2, padding=0),
             nn.ReLU(),
             nn.BatchNorm2d(num_features=num_features),
             nn.Conv2d(
@@ -46,7 +46,6 @@ class Model(torch.nn.Module):
         Forward.
         """
         x = self.cnn(x)
-        x = x * 1.03
         x = self.flat(x)
         x = self.fc(x)
         return x
