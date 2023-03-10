@@ -37,12 +37,18 @@ class Model(torch.nn.Module):
                 stride=2,
                 padding=0,
             ),
-            nn.Flatten(),
-            nn.Linear(in_features=num_features, out_features=num_classes),
+            # nn.Flatten(),
+            # nn.Linear(in_features=num_features, out_features=num_classes),
         )
+        self.flat = nn.Flatten()
+        self.fc = nn.Linear(in_features=num_features, out_features=num_classes)
 
     def forward(self, x: torch.Tensor) -> torch.Tensor:
         """
         Forward.
         """
-        return self.cnn(x)
+        x = self.cnn(x)
+        x = x * 1.02
+        x = self.flat(x)
+        x = self.fc(x)
+        return x
