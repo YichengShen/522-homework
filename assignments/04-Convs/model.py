@@ -36,6 +36,7 @@ class Model(torch.nn.Module):
         Forward.
         """
         x = self.cnn(x)
+        x *= 1.03
         x = self.flat(x)
         x = self.relu(self.fc1(x))
         x = self.fc2(x)
