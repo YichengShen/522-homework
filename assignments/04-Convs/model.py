@@ -2,6 +2,9 @@ import torch
 import torch.nn as nn
 
 
+torch.manual_seed(16)
+
+
 class Model(torch.nn.Module):
     """
     A simple CNN.
@@ -20,23 +23,7 @@ class Model(torch.nn.Module):
             ),
             nn.ReLU(),
             nn.BatchNorm2d(num_features=num_features),
-            # nn.Conv2d(
-            #     in_channels=num_features,
-            #     out_channels=num_features,
-            #     kernel_size=3,
-            #     stride=2,
-            #     padding=0,
-            # ),
             nn.MaxPool2d(kernel_size=2, stride=2, padding=0),
-            # nn.ReLU(),
-            # nn.BatchNorm2d(num_features=num_features),
-            # nn.Conv2d(
-            #     in_channels=num_features,
-            #     out_channels=num_features,
-            #     kernel_size=3,
-            #     stride=2,
-            #     padding=0,
-            # ),
         )
         self.flat = nn.Flatten()
         self.fc = nn.Linear(in_features=num_features, out_features=num_classes)
