@@ -172,7 +172,7 @@ class DQNAgent:
         next_states = torch.FloatTensor(next_states).to(self.device)
         dones = torch.FloatTensor(dones).to(self.device)
 
-        q_values = self.q_network
+        # q_values = self.q_network
 
 
 class PolicyValueNetwork(nn.Module):
@@ -195,7 +195,7 @@ class PolicyValueNetwork(nn.Module):
         return self.policy(x), self.value(x)
 
 
-class Agent:
+class AAgent:
     """RL Agent"""
 
     def __init__(
@@ -339,7 +339,7 @@ class Agent:
         self.update(states, actions, returns, advantages)
 
 
-class BaseAgent:
+class Agent:
     """Base Agent class."""
 
     def __init__(
