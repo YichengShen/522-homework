@@ -2,11 +2,15 @@
     "assignment_name": "RL",
     "contributors": [
         {
-            "name": "Change this to your name",
-            "pennkey": "MyPennKey"
+            "name": "Yicheng Shen",
+            "pennkey": "yichengs"
+        },
+        {
+            "name": "Zijing Wu",
+            "pennkey": "wuzijing"
         }
     ],
     "sources": [
-        "Don't forget to list your sources/attribution here!"
+        "GPT4"
     ]
 }
