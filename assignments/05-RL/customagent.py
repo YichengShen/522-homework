@@ -5,6 +5,7 @@ import torch.nn as nn
 import torch.optim as optim
 from collections import deque
 import random
+from typing import Tuple, List
 
 
 class QNetwork(nn.Module):
@@ -26,7 +27,7 @@ class QNetwork(nn.Module):
             nn.Linear(hidden_size, output_size),
         )
 
-    def forward(self, x):
+    def forward(self, x) -> torch.Tensor:
         """Forward pass to compute Q-values for the given state."""
         return self.network(x)
 
@@ -43,7 +44,7 @@ class ReplayBuffer:
         """
         self.buffer = deque(maxlen=capacity)
 
-    def push(self, state, action, reward, next_state, done):
+    def push(self, state, action, reward, next_state, done) -> None:
         """
         Add an experience to the buffer.
 
@@ -56,7 +57,7 @@ class ReplayBuffer:
         """
         self.buffer.append((state, action, reward, next_state, done))
 
-    def sample(self, batch_size):
+    def sample(self, batch_size) -> List[Tuple]:
         """
         Sample a batch of experiences from the buffer.
 
@@ -68,7 +69,7 @@ class ReplayBuffer:
         """
         return random.sample(self.buffer, batch_size)
 
-    def __len__(self):
+    def __len__(self) -> int:
         """Return the current size of the buffer."""
         return len(self.buffer)
 
