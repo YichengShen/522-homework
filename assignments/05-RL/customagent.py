@@ -8,7 +8,7 @@ import random
 from typing import List
 
 
-class BaseAgent:
+class Agent:
     """Base Agent class."""
 
     def __init__(
@@ -121,7 +121,7 @@ class DQNetwork(nn.Module):
         return self.fc3(x)
 
 
-class Agent(BaseAgent):
+class DQNAgent(Agent):
     """
     A deep Q-network (DQN) agent that learns to perform actions based on observations using a neural network.
     """
