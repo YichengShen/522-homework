@@ -43,6 +43,69 @@ class BaseAgent:
         pass
 
 
+class QAgent:
+    """Agent"""
+
+    def __init__(
+        self, action_space: gym.spaces.Discrete, observation_space: gym.spaces.Box
+    ):
+        self.action_space = action_space
+        self.observation_space = observation_space
+        self.num_actions = action_space.n
+        self.num_bins = 10
+        self.bins = self.create_bins()
+        self.q_table = np.zeros([*map(len, self.bins), self.num_actions])
+        self.alpha = 0.3
+        self.gamma = 0.99
+        self.epsilon = 1.0
+        self.epsilon_min = 0.01
+        self.epsilon_decay = 0.995
+
+    def create_bins(self) -> List:
+        """Create bins"""
+        bins = []
+        for low, high in zip(self.observation_space.low, self.observation_space.high):
+            bins.append(np.linspace(low, high, self.num_bins - 1))
+        return bins
+
+    def discretize_state(self, state: np.ndarray) -> tuple:
+        """Discretize"""
+        discretized_state = []
+        for value, bin_edges in zip(state, self.bins):
+            index = np.digitize(value, bin_edges)
+            index = np.clip(index, 0, len(bin_edges) - 1)
+            discretized_state.append(index)
+        return tuple(discretized_state)
+
+    def act(self, observation: gym.spaces.Box) -> int:
+        """Act"""
+        discretized_state = self.discretize_state(observation)
+        if np.random.rand() <= self.epsilon:
+            return self.action_space.sample()
+        return np.argmax(self.q_table[discretized_state])
+
+    def learn(
+        self, state: np.ndarray, reward: float, terminated: bool, truncated: bool
+    ) -> None:
+        """Learn"""
+        action = self.act(state)
+        next_state = state.copy()
+        next_state[0] += state[2]
+        next_state[1] += state[3]
+        done = terminated or truncated
+        discretized_state = self.discretize_state(state)
+        discretized_next_state = self.discretize_state(next_state)
+        target = reward
+        if not done:
+            target += self.gamma * np.max(self.q_table[discretized_next_state])
+        self.q_table[discretized_state + (action,)] += self.alpha * (
+            target - self.q_table[discretized_state + (action,)]
+        )
+
+        if self.epsilon > self.epsilon_min:
+            self.epsilon *= self.epsilon_decay
+
+
 class DQNetwork(nn.Module):
     """DQN"""
 
@@ -58,7 +121,7 @@ class DQNetwork(nn.Module):
         return self.fc3(x)
 
 
-class DQNAgent(BaseAgent):
+class Agent(BaseAgent):
     """
     A deep Q-network (DQN) agent that learns to perform actions based on observations using a neural network.
     """
@@ -182,66 +245,3 @@ class DQNAgent(BaseAgent):
 
         if terminated or truncated:
             self.target_network.load_state_dict(self.network.state_dict())
-
-
-class Agent:
-    """Agent"""
-
-    def __init__(
-        self, action_space: gym.spaces.Discrete, observation_space: gym.spaces.Box
-    ):
-        self.action_space = action_space
-        self.observation_space = observation_space
-        self.num_actions = action_space.n
-        self.num_bins = 10
-        self.bins = self.create_bins()
-        self.q_table = np.zeros([*map(len, self.bins), self.num_actions])
-        self.alpha = 0.3
-        self.gamma = 0.99
-        self.epsilon = 1.0
-        self.epsilon_min = 0.01
-        self.epsilon_decay = 0.995
-
-    def create_bins(self) -> List:
-        """Create bins"""
-        bins = []
-        for low, high in zip(self.observation_space.low, self.observation_space.high):
-            bins.append(np.linspace(low, high, self.num_bins - 1))
-        return bins
-
-    def discretize_state(self, state: np.ndarray) -> tuple:
-        """Discretize"""
-        discretized_state = []
-        for value, bin_edges in zip(state, self.bins):
-            index = np.digitize(value, bin_edges)
-            index = np.clip(index, 0, len(bin_edges) - 1)
-            discretized_state.append(index)
-        return tuple(discretized_state)
-
-    def act(self, observation: gym.spaces.Box) -> int:
-        """Act"""
-        discretized_state = self.discretize_state(observation)
-        if np.random.rand() <= self.epsilon:
-            return self.action_space.sample()
-        return np.argmax(self.q_table[discretized_state])
-
-    def learn(
-        self, state: np.ndarray, reward: float, terminated: bool, truncated: bool
-    ) -> None:
-        """Learn"""
-        action = self.act(state)
-        next_state = state.copy()
-        next_state[0] += state[2]
-        next_state[1] += state[3]
-        done = terminated or truncated
-        discretized_state = self.discretize_state(state)
-        discretized_next_state = self.discretize_state(next_state)
-        target = reward
-        if not done:
-            target += self.gamma * np.max(self.q_table[discretized_next_state])
-        self.q_table[discretized_state + (action,)] += self.alpha * (
-            target - self.q_table[discretized_state + (action,)]
-        )
-
-        if self.epsilon > self.epsilon_min:
-            self.epsilon *= self.epsilon_decay
