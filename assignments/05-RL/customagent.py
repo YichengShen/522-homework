@@ -194,7 +194,7 @@ class PolicyValueNetwork(nn.Module):
         return self.policy(x), self.value(x)
 
 
-class Agent:
+class AAgent:
     """RL Agent"""
 
     def __init__(
@@ -338,7 +338,7 @@ class Agent:
         self.update(states, actions, returns, advantages)
 
 
-class BaseAgent:
+class Agent:
     """Base Agent class."""
 
     def __init__(
