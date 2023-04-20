@@ -193,10 +193,10 @@ class Agent:
         self.action_space = action_space
         self.observation_space = observation_space
         self.num_actions = action_space.n
-        self.num_bins = 10
+        self.num_bins = 15
         self.bins = self.create_bins()
         self.q_table = np.zeros([*map(len, self.bins), self.num_actions])
-        self.alpha = 0.1
+        self.alpha = 0.2
         self.gamma = 0.99
         self.epsilon = 1.0
         self.epsilon_min = 0.01
