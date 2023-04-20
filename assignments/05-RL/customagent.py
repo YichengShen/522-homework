@@ -135,7 +135,7 @@ class Agent(BaseAgent):
         epsilon_end: float = 0.01,
         epsilon_decay: float = 0.995,
         learning_rate: float = 0.001,
-        batch_size: int = 64,
+        batch_size: int = 4,
         memory_size: int = 10000,
     ):
         super().__init__(action_space, observation_space)
