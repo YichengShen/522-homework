@@ -47,7 +47,7 @@ class PIDController:
 
 class Agent:
     """
-    Agent1
+    Agent2
     """
 
     def __init__(
