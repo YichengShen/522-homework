@@ -6,9 +6,110 @@ import torch.optim as optim
 from collections import deque
 import random
 from typing import List
+import time
+
+
+class PIDController:
+    """
+    A PID (Proportional-Integral-Derivative) controller class for smooth control.
+    """
+
+    def __init__(self, kp: float, ki: float, kd: float):
+        """
+        Initialize the PID controller with given gain parameters.
+        Args:
+            kp (float): Proportional gain
+            ki (float): Integral gain
+            kd (float): Derivative gain
+        """
+        self.kp = kp
+        self.ki = ki
+        self.kd = kd
+        self.prev_error = 0
+        self.integral = 0
+
+    def control(self, error: float, dt: float) -> float:
+        """
+        Calculate control output based on given error and time step.
+        Args:
+            error (float): The current error value
+            dt (float): The time step between successive control updates
+
+        Returns:
+            float: The control output value
+        """
+        self.integral += error * dt
+        derivative = (error - self.prev_error) / dt
+        output = self.kp * error + self.ki * self.integral + self.kd * derivative
+        self.prev_error = error
+        return output
 
 
 class Agent:
+    """
+    Agent
+    """
+
+    def __init__(
+        self, action_space: gym.spaces.Discrete, observation_space: gym.spaces.Box
+    ):
+        self.action_space = action_space
+        self.observation_space = observation_space
+        self.prev_time = time.time()
+        self.angle_controller = PIDController(kp=0.5, ki=0.1, kd=0.2)
+        self.hover_controller = PIDController(kp=0.5, ki=0.1, kd=0.2)
+
+    def act(self, observation: gym.spaces.Box) -> gym.spaces.Discrete:
+        """
+        Act
+        """
+        curr_time = time.time()
+        time_step = curr_time - self.prev_time
+        self.prev_time = curr_time
+
+        angle_threshold = 0.45 * (1 - np.abs(observation[0]))
+        target_angle = observation[0] * 0.6 + observation[2] * 1.0
+        if target_angle > angle_threshold:
+            target_angle = angle_threshold
+        if target_angle < -angle_threshold:
+            target_angle = -angle_threshold
+        target_hover = 0.5 * np.abs(observation[0])
+
+        angle_action = self.angle_controller.control(
+            target_angle - observation[4], time_step
+        )
+        hover_action = self.hover_controller.control(
+            target_hover - observation[1], time_step
+        )
+
+        if observation[6] or observation[7]:
+            angle_action = 0
+            hover_action = -(observation[3]) * 0.5
+
+        action = 0
+        if hover_action > np.abs(angle_action) and hover_action > 0.05:
+            action = 2
+        elif angle_action < -0.05:
+            action = 3
+        elif angle_action > +0.05:
+            action = 1
+        return action
+
+    def learn(
+        self,
+        observation: gym.spaces.Box,
+        reward: float,
+        terminated: bool,
+        truncated: bool,
+    ) -> None:
+        """
+        Learn from the given experience.
+        """
+
+        pass
+
+
+class BaseAgent:
     """Base Agent class."""
 
     def __init__(
@@ -121,7 +222,7 @@ class DQNetwork(nn.Module):
         return self.fc3(x)
 
 
-class DQNAgent(Agent):
+class DQNAgent(BaseAgent):
     """
     A deep Q-network (DQN) agent that learns to perform actions based on observations using a neural network.
     """
