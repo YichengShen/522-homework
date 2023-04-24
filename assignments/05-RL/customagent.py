@@ -56,8 +56,8 @@ class Agent:
         self.action_space = action_space
         self.observation_space = observation_space
         self.prev_time = time.time()
-        self.angle_controller = PIDController(kp=0.5, ki=0.1, kd=0.2)
-        self.hover_controller = PIDController(kp=0.5, ki=0.1, kd=0.2)
+        self.angle_controller = PIDController(kp=0.8, ki=0.2, kd=0.5)
+        self.hover_controller = PIDController(kp=0.8, ki=0.3, kd=0.5)
 
     def act(self, observation: gym.spaces.Box) -> gym.spaces.Discrete:
         """
@@ -67,7 +67,7 @@ class Agent:
         time_step = curr_time - self.prev_time
         self.prev_time = curr_time
 
-        T = 516 / 1000
+        T = 480 / 1000
 
         angle_threshold = T * (1 - np.abs(observation[0]))
         target_angle = observation[0] * 0.5 + observation[2] * 1.0
