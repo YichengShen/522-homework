@@ -67,7 +67,7 @@ class Agent:
         time_step = curr_time - self.prev_time
         self.prev_time = curr_time
 
-        T = 502 / 1000
+        T = 503 / 1000
 
         angle_threshold = T * (1 - np.abs(observation[0]))
         target_angle = observation[0] * 0.7 + observation[2] * 1.2
