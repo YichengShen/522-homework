@@ -45,7 +45,7 @@ class PIDController:
         return output
 
 
-class Agent:
+class HAgent:
     """
     Agent
     """
@@ -67,7 +67,7 @@ class Agent:
         time_step = curr_time - self.prev_time
         self.prev_time = curr_time
 
-        T = 504 / 1000
+        T = 480 / 1000
 
         angle_threshold = T * (1 - np.abs(observation[0]))
         target_angle = observation[0] * 0.7 + observation[2] * 1.2
@@ -111,7 +111,7 @@ class Agent:
         pass
 
 
-class BaseAgent:
+class Agent:
     """Base Agent class."""
 
     def __init__(
@@ -224,7 +224,7 @@ class DQNetwork(nn.Module):
         return self.fc3(x)
 
 
-class DQNAgent(BaseAgent):
+class DQNAgent(Agent):
     """
     A deep Q-network (DQN) agent that learns to perform actions based on observations using a neural network.
     """
