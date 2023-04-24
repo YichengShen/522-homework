@@ -12,6 +12,6 @@
     ],
     "sources": [
         "GPT4",
-        "https://github.com/rogerxcn/lunar_lander_project/blob/master/heuristic_agent.py"
+        "https://github.com/rogerxcn/lunar_lander_project"
     ]
 }
