@@ -67,15 +67,15 @@ class Agent:
         time_step = curr_time - self.prev_time
         self.prev_time = curr_time
 
-        T = 480 / 1000
+        T = 481 / 1000
 
         angle_threshold = T * (1 - np.abs(observation[0]))
-        target_angle = observation[0] * 0.5 + observation[2] * 1.0
+        target_angle = observation[0] * 0.7 + observation[2] * 1.2
         if target_angle > angle_threshold:
             target_angle = angle_threshold
         if target_angle < -angle_threshold:
             target_angle = -angle_threshold
-        target_hover = 0.55 * np.abs(observation[0])
+        target_hover = 0.8 * np.abs(observation[0])
 
         angle_action = self.angle_controller.control(
             target_angle - observation[4], time_step
@@ -86,7 +86,7 @@ class Agent:
 
         if observation[6] or observation[7]:
             angle_action = 0
-            hover_action = -(observation[3]) * 0.5
+            hover_action = -(observation[3]) * 0.6
 
         action = 0
         if hover_action > np.abs(angle_action) and hover_action > 0.05:
